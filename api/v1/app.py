@@ -19,12 +19,12 @@ def set_port_host(HBNB_API_HOST, HBNB_API_PORT):
         HBNB_API_PORT = '5000'
 
 @app.teardown_appcontext
-def shutdown():
+def shutdown(self):
     storage.close()
 
 
 @app.errorhandler(404)
-def not_found():
+def not_found(self):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
