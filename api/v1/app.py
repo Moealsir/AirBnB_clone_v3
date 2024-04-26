@@ -26,7 +26,7 @@ def shutdown(self):
 
 @app.errorhandler(404)
 def error_404(exception=None):
-    """error_404 view function"""
+    """error_404 view function """
     return jsonify({"error":"Not found"}), 404
 
 
