@@ -4,14 +4,15 @@ from flask import jsonify
 from . import app_views
 from models import storage
 
+
 @app_views.route('/status', methods=['GET'])
 def status():
     """Return status"""
     return jsonify({"status": "OK"})
 
-
 @app_views.route('/stats', methods=['GET'])
 def stats():
+    """return the count of stats and jsonify it"""
     states = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
