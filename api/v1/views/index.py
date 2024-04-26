@@ -10,6 +10,7 @@ def status():
     """Return status"""
     return jsonify({"status": "OK"})
 
+
 @app_views.route('/stats', methods=['GET'])
 def stats():
     """return the count of stats and jsonify it"""
@@ -22,6 +23,7 @@ def stats():
         "users": storage.count("User")
     }
     return jsonify(states)
+
 
 @app_views.route('/states', methods=['GET'])
 def get_states():
