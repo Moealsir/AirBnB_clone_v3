@@ -7,7 +7,7 @@ from api.v1.views import app_views
 
 
 hbnb_host = getenv('HBNB_API_HOST')
-hbmb_port = getenv('HBNB_API_PORT')
+hbnb_port = getenv('HBNB_API_PORT')
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
@@ -17,6 +17,7 @@ def set_port_host(HBNB_API_HOST, HBNB_API_PORT):
         HBNB_API_HOST = '0.0.0.0'
     if not HBNB_API_PORT:
         HBNB_API_PORT = '5000'
+
 
 @app.teardown_appcontext
 def shutdown(self):
@@ -31,5 +32,5 @@ def not_found(error):
 
 
 if __name__ == "__main__":
-    set_port_host(hbnb_host, hbmb_port)
-    app.run(host=hbnb_host, port=hbmb_port, threaded=True)
+    set_port_host(hbnb_host, hbnb_port)
+    app.run(host=hbnb_host, port=hbnb_port, threaded=True)
