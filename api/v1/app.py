@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """flask api-web-application"""
 from flask import Flask, jsonify, make_response
-from os import getenv
 from models import storage
+from os import getenv
 from api.v1.views import app_views
 
 
