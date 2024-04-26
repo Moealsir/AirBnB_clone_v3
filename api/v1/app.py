@@ -25,10 +25,9 @@ def shutdown(self):
 
 
 @app.errorhandler(404)
-def not_found(error):
-    if request.path != '/api/v1/status':
-        return make_response(jsonify({"error": "Not found"}), 404)
-    return make_response(jsonify({"status": "OK"}), 200)
+def error_404(self):
+    """error_404 view function"""
+    return make_response(jsonify({"error":"Not found"}), 404)
 
 
 if __name__ == "__main__":
