@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """flask api-web-application"""
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from models import storage
 from os import getenv
 from api.v1.views import app_views
@@ -24,8 +24,10 @@ def shutdown(self):
 
 
 @app.errorhandler(404)
-def not_found(self):
-    return make_response(jsonify({"error": "Not found"}), 404)
+def not_found(error):
+    if request.path != '/api/v1/status':
+        return make_response(jsonify({"error": "Not found"}), 404)
+    return make_response(jsonify({"status": "OK"}), 200)
 
 
 if __name__ == "__main__":

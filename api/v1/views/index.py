@@ -2,7 +2,7 @@
 """"Index view module"""
 from flask import jsonify
 from . import app_views
-from models import storage, state
+from models import storage
 
 
 @app_views.route('/status', methods=['GET'])
@@ -13,8 +13,8 @@ def status():
 
 @app_views.route('/stats', methods=['GET'])
 def stats():
-    """return the count of stats and jsonify it"""
-    states = {
+    """Return the count of each object type"""
+    stats = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -22,7 +22,7 @@ def stats():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(states)
+    return jsonify(stats)
 
 
 @app_views.route('/states', methods=['GET'])
