@@ -30,7 +30,7 @@ def get_id(state_id):
 def create_state_id():
     """create the state"""
     if not request.get_json():
-        abort(400, description="Not a json")
+        abort(400, description="Not a JSON")
 
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
@@ -41,7 +41,7 @@ def create_state_id():
     return make_response(jsonify(insta.to_dict()), 201)
 
 
-@app_views.route('/states', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def state_delete(state_id):
     """delete the state"""
     st = storage.get(State, state_id)
@@ -61,7 +61,7 @@ def update_state(state_id):
     if not st:
         abort(404)
     if not request.get_json():
-        abort(400, descritption="Not a Json")
+        abort(400, descritption="Not a JSON")
 
     discard = ['id', 'update_at', 'created_at']
     dt = request.get_json()
