@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""""Index view module"""
+""""this is the Index view module"""
 from flask import jsonify
 from . import app_views
 from models import storage, state
@@ -7,7 +7,7 @@ from models import storage, state
 
 @app_views.route('/status', methods=['GET'])
 def status():
-    """Return status"""
+    """Return status ok"""
     return jsonify({"status": "OK"})
 
 
