@@ -11,8 +11,8 @@ def states():
     """ this is finction status view function """
     objects_states = storage.all(State).values()
     list_of_states = []
-    for state in objects_states:
-        list_of_states.append(state.to_dict())
+    for st in objects_states:
+        list_of_states.append(st.to_dict())
     return jsonify(list_of_states)
 
 
@@ -22,7 +22,7 @@ def get_id(state_id):
     st = storage.get(State, state_id)
     if not st:
         abort(404)
-    
+
     return jsonify(st.to_dict())
 
 
@@ -31,7 +31,7 @@ def create_state_id():
     """create the state"""
     if not request.get_json():
         abort(400, description="Not a json")
-    
+
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
 
@@ -39,3 +39,34 @@ def create_state_id():
     insta = State(**dt)
     insta.save()
     return make_response(jsonify(insta.to_dict()), 201)
+
+
+@app_views.route('/states', methods=['DELETE'], strict_slashes=False)
+def state_delete(state_id):
+    """delete the state"""
+    st = storage.get(State, state_id)
+    if not st:
+        abort(404)
+    storage.delete(st)
+    storage.save()
+
+    return make_response(jsonify({}), 200)
+
+
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+def update_state(state_id):
+    """update the state"""
+    st = storage.get(State, state_id)
+
+    if not st:
+        abort(404)
+    if not request.get_json():
+        abort(400, descritption="Not a Json")
+
+    discard = ['id', 'update_at', 'created_at']
+    dt = request.get_json()
+    for key, value in dt.items():
+        if key not in discard:
+            setattr(st, key, value)
+    storage.save()
+    return make_response(jsonify(st.to_dict()), 200)
