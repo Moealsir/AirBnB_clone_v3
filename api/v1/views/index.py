@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """"this is the Index view module"""
-from flask import jsonify
+from flask import jsonify, request
 from . import app_views
 from models import storage, state
 
