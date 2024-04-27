@@ -7,20 +7,19 @@ from models.state import State
 from models import storage
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET']. strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def cities(state_id):
     """ this is finction status view function """
-    list_of_cities = []
     st = storage.get(State, state_id)
     list_of_cities = [city.to_dict() for city in st.cities] if st else abort(404)
     return jsonify(list_of_cities)
 
 
-@app_views.route('/cities/<city_id>', methods=['GET']. strict_slashes=False)
+@app_views.route('/cities/<city_id>/', methods=['GET'], strict_slashes=False)
 def get_city_id(city_id):
     """return data from id"""
-    st = storage.get(City, city_id)
-    return jsonify(st) if st else abort(404)
+    ct = storage.get(City, city_id)
+    return jsonify(ct) if ct else abort(404)
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
@@ -36,10 +35,33 @@ def create_city(city_id):
 
     dt = request.get_json()
     insta = City(**dt)
+    insta.city_id = st.id
     insta.save()
     return make_response(jsonify(insta.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
-def city_delete(city_id):
-    
+def delete_city(city_id):
+    """delete the city"""
+    ct = storage.get(City, city_id)
+    storage.delete(ct)
+    storage.save()
+    return make_response(jsonify({}), 200)
+
+
+@app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
+def update_city(city_id):
+    """update the city"""
+    ct = storage.get(City, city_id)
+    if not ct:
+        abort(404)
+    if not request.get_json():
+        abort(400, descritption="Not a JSON")
+
+    discard = ['id', 'update_at', 'created_at']
+    dt = request.get_json()
+    for key, value in dt.items():
+        if key not in discard:
+            setattr(ct, key, value)
+    storage.save()
+    return make_response(jsonify(ct.to_dict()), 200)

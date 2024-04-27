@@ -28,9 +28,6 @@ def get_state_id(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state_id(state_id):
     """create the state"""
-    st = storage.get(State, state_id)
-    if not st:
-        abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
 
