@@ -13,8 +13,8 @@ def status():
 
 @app_views.route('/stats', methods=['GET'])
 def stats():
-    """Return the count of each object type"""
-    stats = {
+    """return the count of stats and jsonify it"""
+    states = {
         "amenities": storage.count("Amenity"),
         "cities": storage.count("City"),
         "places": storage.count("Place"),
@@ -22,4 +22,11 @@ def stats():
         "states": storage.count("State"),
         "users": storage.count("User")
     }
-    return jsonify(stats)
+    return jsonify(states)
+
+
+@app_views.route('/states', methods=['GET'])
+def get_states():
+    """Return all states objects"""
+    states = states.State.query.all()
+    return jsonify([state.to_dict() for state in states])

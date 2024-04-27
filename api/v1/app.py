@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """flask api-web-application"""
-from flask import Flask, jsonify, make_response, request
-from models import storage
+from flask import Flask, jsonify, make_response
 from os import getenv
+from models import storage
 from api.v1.views import app_views
 
 
 hbnb_host = getenv('HBNB_API_HOST')
-hbnb_port = getenv('HBNB_API_PORT')
+hbmb_port = getenv('HBNB_API_PORT')
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
@@ -20,16 +20,15 @@ def set_port_host(HBNB_API_HOST, HBNB_API_PORT):
 
 
 @app.teardown_appcontext
-def shutdown(self):
+def shutdown(exception=None):
     storage.close()
 
 
 @app.errorhandler(404)
-def error_404(exception=None):
-    """error_404 view function """
-    return jsonify({"error":"Not found"}), 404
+def not_found(exception=None):
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == "__main__":
-    set_port_host(hbnb_host, hbnb_port)
-    app.run(host=hbnb_host, port=hbnb_port, threaded=True)
+    set_port_host(hbnb_host, hbmb_port)
+    app.run(host=hbnb_host, port=hbmb_port, threaded=True, debug=True)
