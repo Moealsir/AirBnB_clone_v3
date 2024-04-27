@@ -11,12 +11,13 @@ def states():
     """ this is finction status view function """
     objects_states = storage.all(State).values()
     list_of_states = []
-    list_of_states = [st.to_dict() for st in objects_states]
+    for st in objects_states:
+        list_of_states.append(st.to_dict())
     return jsonify(list_of_states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
-def get_state_id(state_id):
+def get_id(state_id):
     """return data from the id"""
     st = storage.get(State, state_id)
     if not st:
