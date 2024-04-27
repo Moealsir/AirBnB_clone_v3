@@ -38,3 +38,8 @@ def create_city(city_id):
     insta = City(**dt)
     insta.save()
     return make_response(jsonify(insta.to_dict()), 201)
+
+
+@app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
+def city_delete(city_id):
+    
