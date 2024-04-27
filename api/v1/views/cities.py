@@ -23,9 +23,9 @@ def get_city_id(city_id):
 
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
-def create_city(city_id):
+def create_city(state_id):
     """create the city"""
-    st = storage.get(State, city_id)
+    st = storage.get(State, state_id)
     if not st:
         abort(404)
     if not request.get_json():
@@ -35,7 +35,7 @@ def create_city(city_id):
 
     dt = request.get_json()
     insta = City(**dt)
-    insta.city_id = st.id
+    insta.state_id = st.id
     insta.save()
     return make_response(jsonify(insta.to_dict()), 201)
 
@@ -56,12 +56,12 @@ def update_city(city_id):
     if not ct:
         abort(404)
     if not request.get_json():
-        abort(400, descritption="Not a JSON")
+        abort(400, description="Not a JSON")
 
-    discard = ['id', 'update_at', 'created_at']
+    ignore = ['id', 'state_id', 'created_at', 'updated_at']
     dt = request.get_json()
     for key, value in dt.items():
-        if key not in discard:
+        if key not in ignore:
             setattr(ct, key, value)
     storage.save()
     return make_response(jsonify(ct.to_dict()), 200)

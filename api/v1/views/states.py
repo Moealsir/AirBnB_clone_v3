@@ -41,7 +41,8 @@ def create_state_id():
     return make_response(jsonify(insta.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def state_delete(state_id):
     """delete the state"""
     st = storage.get(State, state_id)
