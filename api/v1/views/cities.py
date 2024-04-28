@@ -10,7 +10,7 @@ from models import storage
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
 def cities(state_id):
-    """ this is finction status view function """
+    """ this is finction city view function """
     st = storage.get(State, state_id)
     list_of_cities = [city.to_dict()
                       for city in st.cities] if st else abort(404)
