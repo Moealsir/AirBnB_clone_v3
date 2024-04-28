@@ -22,7 +22,7 @@ def cities(state_id):
 def get_city_id(city_id):
     """return data from id"""
     ct = storage.get(City, city_id)
-    return jsonify(ct) if ct else abort(404)
+    return jsonify(ct.to_dict()) if ct else abort(404)
 
 
 @app_views.route('/states/<state_id>/cities',
