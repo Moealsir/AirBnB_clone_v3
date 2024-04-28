@@ -42,38 +42,4 @@ def create_amenity_id():
     dt = request.get_json()
     insta = Amenity(**dt)
     insta.save()
-
     return make_response(jsonify(insta.to_dict()), 201)
-
-
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
-                 strict_slashes=False)
-def delete_amenity(amenity_id):
-    """delete the amenity"""
-    am = storage.get(Amenity, amenity_id)
-    if not am:
-        abort(404)
-    storage.delete(am)
-    storage.save()
-
-    return make_response(jsonify({}), 200)
-
-
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
-                 strict_slashes=False)
-def amenity_update(amenity_id):
-    """update the amenity"""
-    am = storage.get(Amenity, amenity_id)
-
-    if not am:
-        abort(404)
-    if not request.get_json():
-        abort(400, description="Not a JSON")
-
-    discard = ['id', 'created_at', 'update_at']
-    dt = request.get_json()
-    for key, value in dt.items():
-        if key not in discard:
-            setattr(am, key, value)
-    storage.save()
-    return make_response(jsonify(am.to_dict()), 200)
