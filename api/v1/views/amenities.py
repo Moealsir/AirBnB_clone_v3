@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 """this is the Amenity view module"""
 from flask import abort, jsonify, make_response, request
 from models import storage
