@@ -16,7 +16,7 @@ def states():
     return jsonify(list_of_states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['GET'], strict_slashes=False)
 def get_id(state_id):
     """return data from the id"""
     st = storage.get(State, state_id)
@@ -41,7 +41,7 @@ def create_state_id():
     return make_response(jsonify(insta.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
+@app_views.route('/states/<string:state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def state_delete(state_id):
     """delete the state"""
@@ -54,7 +54,7 @@ def state_delete(state_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """update the state"""
     st = storage.get(State, state_id)
