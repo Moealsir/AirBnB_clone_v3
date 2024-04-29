@@ -5,8 +5,9 @@ from models import storage
 from . import app_views
 from models.user import User
 
+
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
-def userss():
+def users():
     """ this is function users view function """
     objects_users = storage.all(User).values()
     list_of_users = []
@@ -31,8 +32,14 @@ def create_user_id():
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    if 'name' not in request.get_json():
-        abort(400, description="Missing name")
+    if 'first_name' not in request.get_json():
+        abort(400, description="Missing first_name")
+    if 'last_name' not in request.get_json():
+        abort(400, description="Missing last_name")
+    if 'email' not in request.get_json():
+        abort(400, description="Missing email")
+    if 'password' not in request.get_json():
+        abort(400, description="Missing password")
 
     dt = request.get_json()
     insta = User(**dt)
@@ -42,8 +49,8 @@ def create_user_id():
 
 @app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def state_delete(user_id):
-    """delete the state"""
+def user_delete(user_id):
+    """delete the user"""
     us = storage.get(User, user_id)
     if not us:
         abort(404)
@@ -53,20 +60,20 @@ def state_delete(user_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state(state_id):
-    """update the state"""
-    st = storage.get(State, state_id)
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+def update_user(user_id):
+    """update the user"""
+    us = storage.get(User, user_id)
 
-    if not st:
+    if not us:
         abort(404)
     if not request.get_json():
         abort(400, descritption="Not a JSON")
 
-    discard = ['id', 'update_at', 'created_at']
+    discard = ['id', 'created_at', 'update_at']
     dt = request.get_json()
     for key, value in dt.items():
         if key not in discard:
-            setattr(st, key, value)
+            setattr(us, key, value)
     storage.save()
-    return make_response(jsonify(st.to_dict()), 200)
+    return make_response(jsonify(us.to_dict()), 200)
