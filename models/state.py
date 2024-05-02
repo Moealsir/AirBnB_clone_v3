@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class State"""
+"""this is the moduel of class-State"""
 import models
 from models.base_model import BaseModel, Base
 from models.city import City
