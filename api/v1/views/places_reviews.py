@@ -2,7 +2,7 @@
 """this is the review view module"""
 from flask import jsonify, abort, make_response, request
 from . import app_views
-from models.review import Review 
+from models.review import Review
 from models.place import Place
 from models import storage
 
@@ -12,8 +12,9 @@ from models import storage
 def reviews(review_id):
     """ this is finction review view function """
     re = storage.get(Review, review_id)
-    list_of_reviews = [review.to_dict()
-                      for review in re.reviews] if re else abort(404)
+    list_of_reviews = [review.
+                       to_dict() for review in re.
+                       reviews] if re else abort(404)
     return jsonify(list_of_reviews)
 
 
@@ -38,7 +39,7 @@ def create_review(review_id):
         abort(400, description="Missing user_id")
     if 'text' not in request.get_json():
         abort(400, description="Missing text")
-        
+
     dt = request.get_json()
     insta = Review(**dt)
     insta.state_id = re.id
@@ -46,7 +47,8 @@ def create_review(review_id):
     return make_response(jsonify(insta.to_dict()), 201)
 
 
-@app_views.route('/reviews/<review_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>',
+                 methods=['DELETE'], strict_slashes=False)
 def delete_review(review_id):
     """delete the review"""
     re = storage.get(Review, review_id)

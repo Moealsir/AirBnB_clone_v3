@@ -8,7 +8,7 @@ from api.v1.views import app_views
 
 
 hbnb_host = getenv('HBNB_API_HOST')
-hbmb_port = getenv('HBNB_API_PORT')
+hbnb_port = getenv('HBNB_API_PORT')
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 app.register_blueprint(app_views)
@@ -32,5 +32,5 @@ def not_found(self):
 
 
 if __name__ == "__main__":
-    set_port_host(hbnb_host, hbmb_port)
-    app.run(host=hbnb_host, port=hbmb_port, threaded=True, debug=True)
+    set_port_host(hbnb_host, hbnb_port)
+    app.run(host=hbnb_host, port=hbnb_port, threaded=True, debug=True)
