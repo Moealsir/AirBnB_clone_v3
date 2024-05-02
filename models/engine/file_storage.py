@@ -4,6 +4,7 @@ Contains the FileStorage class
 """
 
 import json
+import models
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -11,7 +12,6 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import models
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -71,20 +71,28 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """Retrieve one object"""
+        """Return object based on the class name and its ID"""
         if cls not in classes.values():
             return None
 
-        objects = models.storage.all(cls)
-        matching_objects = filter(lambda obj: obj.id == id, objects.values())
-        return next(matching_objects, None)
+        all_cls = models.storage.all(cls)
+        for value in all_cls.values():
+            if (value.id == id):
+                return value
+
+        return None
 
     def count(self, cls=None):
-        """Count the number of objects in storage"""
-        clces = classes.values()
+        """
+        count the number of objects in storage
+        """
+        all_class = classes.values()
 
         if not cls:
-            count = sum(len(models.storage.all(clce).values()) for clce in clces)
+            count = 0
+            for clas in all_class:
+                count += len(models.storage.all(clas).values())
         else:
             count = len(models.storage.all(cls).values())
+
         return count
