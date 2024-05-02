@@ -2,17 +2,22 @@
 """"this is the Index view module"""
 from flask import jsonify
 from . import app_views
-from models import city, user, place, review
-from models import storage, state, amenity
+from models import city
+from models import place
+from models import review
+from models import user
+from models import amenity
+from models import state
+from models import storage
 
 
-@app_views.route('/status', methods=['GET'])
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """Return status ok"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', methods=['GET'])
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """return the count of stats and jsonify it"""
     stats = {
