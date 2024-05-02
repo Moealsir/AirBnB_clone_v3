@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" holds class State"""
+"""this is the moduel of class-State"""
 import models
 from models.base_model import BaseModel, Base
 from models.city import City
@@ -14,9 +14,7 @@ class State(BaseModel, Base):
     if models.storage_t == "db":
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
-        cities = relationship("City",
-                              backref="state",
-                              cascade="all, delete, delete-orphan")
+        cities = relationship("City", backref="state")
     else:
         name = ""
 
